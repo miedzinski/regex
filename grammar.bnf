@@ -1,0 +1,25 @@
+; based on BSD manpage: https://man.openbsd.org/re_format.7
+; TODO: anchors, equivalence classes, boundaries, collating symbols
+
+<re> ::= <branch> | <re> "|" <branch>
+<branch> ::= <simple-re> | <branch> <simple-re>
+<simple-re> ::= <basic-re> | <basic-re> <quantifier>
+<basic-re> ::= <group> | <expr>
+<expr> ::= <literal> | "." | <bracket>
+<literal> ::= ? any non <meta> character ? | <escaped>
+<meta> ::= "\" | "|" | "." | "?" | "+" | "*" | "(" | ")" |  "{" | "}"
+<escaped> ::= "\" ? any char ?
+<group> ::= "(" <re> ")"
+<quantifier> ::= "?" | "+" | "*" | "{" <range> "}"
+<range> ::= number | number "," | number "," number
+
+<bracket> ::= "[" <list> "]" | "[" "^" <list> "]"
+<list> ::= <simple-list> | "]" <simple-list> | "-" <simple-list> |
+           <simple-list> "-" | "-" <simple-list> "-"
+<simple-list> ::= <term> | <simple-list> <term>
+<term> ::= <bracket-literal> | <class> | <range-expr>
+<range-expr> ::= <bracket-literal> "-" <bracket-literal>
+<bracket-literal> ::= ? any char except "\" ? | <escaped>
+<class> ::= "[:" <class-name> ":]"
+<class-name> ::= "alnum" | "alpha" | "blank" | "cntrl" | "digit" | "graph"
+                 "lower" | "print" | "punct" | "space" | "upper" | "xdigit"
