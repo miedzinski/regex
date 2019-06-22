@@ -12,7 +12,7 @@ The output can be piped to [Graphviz](http://www.graphviz.org), which in turn ca
 Run with
 
 ```bash
-cargo run --bin dot <<< '[0-9.[:lower:]]?|fo+(bar)'
+cargo run --bin dot <<< '[0-9.[:lower:]]?|fo+(bar)?'
 ```
 
 # License
